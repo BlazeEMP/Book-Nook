@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-interface IBook extends Document {
+export interface IBook extends Document {
     bookId: string;
     title: string;
     authors: string[];
@@ -34,12 +34,14 @@ const bookSchema = new Schema<IBook>(
         link: {
             type: String,
         },
-    },
-    {
-        timestamps: true,
-        toJSON: { getters: true },
-        toObject: { getters: true },
     }
+    // TODO: uncomment for settings for schema if needed
+    // ,
+    // {
+    //     timestamps: true,
+    //     toJSON: { getters: true },
+    //     toObject: { getters: true },
+    // }
 );
 
 const Book = model<IBook>('Book', bookSchema);

@@ -1,18 +1,15 @@
 import { Schema, model, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-// Define an interface for the User document
 interface IUser extends Document {
-    id: string;
     username: string;
     email: string;
     password: string;
-    savedBooks: string[];
+    savedBooks: Schema.Types.ObjectId[];
     isCorrectPassword(password: string): Promise<boolean>;
     bookCount: number;
 }
 
-// Define the schema for the User document
 const userSchema = new Schema<IUser>(
     {
         username: {
@@ -34,19 +31,22 @@ const userSchema = new Schema<IUser>(
         },
         savedBooks: [
             {
-                type: String,
+                type: Schema.Types.ObjectId,
+                ref: 'Book',
             },
         ],
         bookCount: {
             type: Number,
             default: 0,
         },
-    },
-    {
-        timestamps: true,
-        toJSON: { getters: true },
-        toObject: { getters: true },
     }
+    // TODO: uncomment for settings for schema if needed
+    // ,
+    // {
+    //     timestamps: true,
+    //     toJSON: { getters: true },
+    //     toObject: { getters: true },
+    // }
 );
 
 // pre hook to hash the password before saving a new user or updating password field on a user
