@@ -86,23 +86,23 @@ You’ll need to complete the following tasks in each of these back-end files:
 
 * `auth.ts`: Update the auth middleware function to work with the GraphQL API.
 
-* `server.ts`: Implement the Apollo Server and apply it to the Express server as middleware.
+* X `server.ts`: Implement the Apollo Server and apply it to the Express server as middleware.
 
 * `Schemas` directory:
 
-  * `index.ts`: Export your typeDefs and resolvers.
+  * X `index.ts`: Export your typeDefs and resolvers.
 
-  * `resolvers.ts`: Define the query and mutation functionality to work with the Mongoose models.
+  * X `resolvers.ts`: Define the query and mutation functionality to work with the Mongoose models.
 
       **Hint**: Use the functionality in the `user-controller.ts` as a guide.
 
-  * `typeDefs.ts`: Define the necessary `Query` and `Mutation` types:
+  * X `typeDefs.ts`: Define the necessary `Query` and `Mutation` types:
 
-    * `Query` type:
+    * X `Query` type:
 
       * `me`: Which returns a `User` type.
   
-    * `Mutation` type:
+    * X `Mutation` type:
 
       * `login`: Accepts an email and password as parameters; returns an `Auth` type.
 
@@ -112,7 +112,7 @@ You’ll need to complete the following tasks in each of these back-end files:
 
       * `removeBook`: Accepts a book's `bookId` as a parameter; returns a `User` type.
 
-    * `User` type:
+    * X `User` type:
 
       * `_id`
 
@@ -124,7 +124,7 @@ You’ll need to complete the following tasks in each of these back-end files:
 
       * `savedBooks` (This will be an array of the `Book` type.)
 
-    * `Book` type:
+    * X `Book` type:
 
       * `bookId` (Not the `_id`, but the book's `id` value returned from Google's Book API.)
 
@@ -138,7 +138,7 @@ You’ll need to complete the following tasks in each of these back-end files:
 
       * `link`
 
-    * `Auth` type:
+    * X `Auth` type:
 
       * `token`
 

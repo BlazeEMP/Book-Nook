@@ -1,3 +1,4 @@
+// TODO update function to wrk with graphql API
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 

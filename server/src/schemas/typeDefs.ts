@@ -1,3 +1,4 @@
+// TODO COMPLETE double check file
 const typeDefs = `
     type User {
         _id: ID
@@ -8,18 +9,27 @@ const typeDefs = `
         bookCount: Int
     }
 
-    input AddUserInput {
-        username: String!
-        email: String!
-        password: String!
-    }
-
     type Book {
         _id: ID
         thoughtText: String
         thoughtAuthor: String
         createdAt: String
         comments: [Comment]!
+    }
+    
+    type Auth {
+        token: ID!
+        user: User
+    }
+
+    type Query {
+        me: User
+    }
+
+    input AddUserInput {
+        username: String!
+        email: String!
+        password: String!
     }
 
     input AddBookInput {
@@ -29,19 +39,6 @@ const typeDefs = `
         title: String!
         image: String
         link: String
-    }
-    
-    type Auth {
-        token: ID!
-        user: User
-    }
-
-    type Query {
-        users: [User]
-        user(username: String!): User
-        thoughts: [Thought]!
-        thought(thoughtId: ID!): Thought
-        me: User
     }
 
     type Mutation {
