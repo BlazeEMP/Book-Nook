@@ -46,18 +46,16 @@ export const authenticateToken = ({ req }: any) => {
     }
 
     // If no token is provided, return the request object as is
-    if (!token) {
-        return req;
-    }
+    if (!token) return req;
 
     // Try to verify the token
     try {
         const { data }: any = jwt.verify(token, process.env.JWT_SECRET_KEY || '', { maxAge: '2hr' });
         // If the token is valid, attach the user data to the request object
         req.user = data;
-    } catch (err) {
+    } catch (error) {
         // If the token is invalid, log an error message
-        console.log('Invalid token');
+        console.log('Invalid token: ', error);
     }
 
     // Return the request object
