@@ -1,5 +1,5 @@
 import { Book, User } from '../models/index.js';
-import { signToken, AuthenticationError } from '../utils/auth.js';
+import { signToken, AuthenticationError } from '../services/auth.js';
 
 // Define types for the arguments
 interface AddUserArgs {
