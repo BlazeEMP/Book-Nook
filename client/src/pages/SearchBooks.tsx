@@ -68,7 +68,7 @@ const SearchBooks = () => {
 
     // create function to handle saving a book to our database
     const handleSaveBook = async (bookId: string) => {
-        // find the book in `searchedBooks` state by the matching id
+        // search the state by the bookId, this is saved and fast to access so we dont need to make an extra API call
         const bookToSave: Book = searchedBooks.find((book) => book.bookId === bookId)!;
 
         // get token
@@ -89,9 +89,7 @@ const SearchBooks = () => {
                 }
             });
 
-            if (!newBook) {
-                throw new Error('something went wrong!');
-            }
+            if (!newBook) throw new Error('Something went wrong saving the book!');
 
             // if book successfully saves to user's account, save book id to state
             setSavedBookIds([...savedBookIds, bookToSave.bookId]);

@@ -37,7 +37,7 @@ const resolvers = {
         me: async (_parent: any, _args: any, context: any) => {
             // If the user is authenticated, find and return the user's information along with their thoughts
             if (context.user) {
-                return User.findOne({ _id: context.user._id }).populate('// TODO add items to populate');
+                return User.findOne({ _id: context.user._id });
             }
             // If the user is not authenticated, throw an AuthenticationError
             throw new AuthenticationError('Could not authenticate user.');
@@ -61,17 +61,13 @@ const resolvers = {
             const user = await User.findOne({ email });
 
             // If no user is found, throw an AuthenticationError
-            if (!user) {
-                throw new AuthenticationError('Could not authenticate user.');
-            }
+            if (!user) throw new AuthenticationError('Could not authenticate user.');
 
             // Check if the provided password is correct
             const correctPw = await user.isCorrectPassword(password);
 
             // If the password is incorrect, throw an AuthenticationError
-            if (!correctPw) {
-                throw new AuthenticationError('Could not authenticate user.');
-            }
+            if (!correctPw) throw new AuthenticationError('Could not authenticate user.');
 
             // Sign a token with the user's information
             const token = signToken(user.username, user.email, user._id);
@@ -91,8 +87,7 @@ const resolvers = {
 
                 return book;
             }
-            throw AuthenticationError;
-            ('You need to be logged in!');
+            throw new AuthenticationError('Could not authenticate user.');
         },
 
         removeBook: async (_parent: any, { bookId }: RemoveBookArgs, context: any) => {
@@ -101,9 +96,7 @@ const resolvers = {
                     bookId: bookId,
                 });
 
-                if (!book) {
-                    throw AuthenticationError;
-                }
+                if (!book) throw new AuthenticationError('Could not authenticate user.');
 
                 await User.findOneAndUpdate(
                     { _id: context.user._id },
@@ -112,7 +105,7 @@ const resolvers = {
 
                 return book;
             }
-            throw AuthenticationError;
+            throw new AuthenticationError('Could not authenticate user.');
         },
     },
 };

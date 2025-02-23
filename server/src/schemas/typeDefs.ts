@@ -11,10 +11,12 @@ const typeDefs = `
 
     type Book {
         _id: ID
-        thoughtText: String
-        thoughtAuthor: String
-        createdAt: String
-        comments: [Comment]!
+        bookId: String
+        authors: [String]
+        description: String
+        title: String
+        image: String
+        link: String
     }
     
     type Auth {

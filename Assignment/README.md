@@ -84,7 +84,7 @@ In order for this application to use a GraphQL API, you’ll need to refactor th
 
 You’ll need to complete the following tasks in each of these back-end files:
 
-* `auth.ts`: Update the auth middleware function to work with the GraphQL API.
+* X `auth.ts`: Update the auth middleware function to work with the GraphQL API.
 
 * X `server.ts`: Implement the Apollo Server and apply it to the Express server as middleware.
 
@@ -164,13 +164,13 @@ Additionally, you’ll need to complete the following tasks in each of these fro
 
 * X `App.tsx`: Create an Apollo Provider to make every request work with the Apollo Server.
 
-* X`SearchBooks.tsx`:
+* X `SearchBooks.tsx`:
 
   * Use the Apollo `useMutation()` hook to execute the `SAVE_BOOK` mutation in the `handleSaveBook()` function instead of the `saveBook()` function imported from the `API` file.
 
   * Make sure you keep the logic for saving the book's ID to state in the `try...catch` block!
 
-* `SavedBooks.tsx`:
+* X `SavedBooks.tsx`:
 
   * Remove the `useEffect()` hook that sets the state for `UserData`.
 
