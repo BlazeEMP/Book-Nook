@@ -38,16 +38,12 @@ const SearchBooks = () => {
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!searchInput) {
-            return false;
-        }
+        if (!searchInput) return false;
 
         try {
             const response = await searchGoogleBooks(searchInput);
 
-            if (!response.ok) {
-                throw new Error('something went wrong!');
-            }
+            if (!response.ok) throw new Error('something went wrong!');
 
             const { items } = await response.json();
 
@@ -60,9 +56,13 @@ const SearchBooks = () => {
             }));
 
             setSearchedBooks(bookData);
+
+            // clear form state
             setSearchInput('');
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            // clear form state if server response fails as well
+            setSearchInput('');
+            console.error("Error searching for books in google: ", error);
         }
     };
 
@@ -74,13 +74,10 @@ const SearchBooks = () => {
         // get token
         const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-        if (!token) {
-            return false;
-        }
+        if (!token) return false;
 
         try {
-            // TODO change and remove import for API function of RESTful API, change to useMutation()
-            await saveBook({
+            const newBook = await saveBook({
                 variables: {
                     bookData: {
                         bookId: bookToSave.bookId,
@@ -92,15 +89,14 @@ const SearchBooks = () => {
                 }
             });
 
-            // TODO double check if this is correct for checking saveBook
-            if (!saveBook.ok) {
+            if (!newBook) {
                 throw new Error('something went wrong!');
             }
 
             // if book successfully saves to user's account, save book id to state
             setSavedBookIds([...savedBookIds, bookToSave.bookId]);
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error("Error saving book to database: ", error);
         }
     };
 
