@@ -15,7 +15,7 @@ interface LoginUserArgs {
     password: string;
 }
 
-interface AddBookArgs {
+interface SaveBookArgs {
     input: {
         bookId: string;
         authors: string[];
@@ -80,7 +80,7 @@ const resolvers = {
             return { token, user };
         },
 
-        addBook: async (_parent: any, { input }: AddBookArgs, context: any) => {
+        saveBook: async (_parent: any, { input }: SaveBookArgs, context: any) => {
             if (context.user) {
                 const book = await Book.create({ ...input });
 

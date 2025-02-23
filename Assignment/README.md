@@ -88,7 +88,7 @@ You’ll need to complete the following tasks in each of these back-end files:
 
 * X `server.ts`: Implement the Apollo Server and apply it to the Express server as middleware.
 
-* `Schemas` directory:
+* X `Schemas` directory:
 
   * X `index.ts`: Export your typeDefs and resolvers.
 
@@ -148,9 +148,9 @@ You’ll need to complete the following tasks in each of these back-end files:
 
 You'll need to create the following front-end files:
 
-* `queries.ts`: This will hold the query `GET_ME`, which will execute the `me` query set up using Apollo Server.
+* X `queries.ts`: This will hold the query `GET_ME`, which will execute the `me` query set up using Apollo Server.
 
-* `mutations.ts`:
+* X `mutations.ts`:
 
   * `LOGIN_USER` will execute the `loginUser` mutation set up using Apollo Server.
 
@@ -162,7 +162,7 @@ You'll need to create the following front-end files:
 
 Additionally, you’ll need to complete the following tasks in each of these front-end files:
 
-* `App.tsx`: Create an Apollo Provider to make every request work with the Apollo Server.
+* X `App.tsx`: Create an Apollo Provider to make every request work with the Apollo Server.
 
 * `SearchBooks.tsx`:
 
