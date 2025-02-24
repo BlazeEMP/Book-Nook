@@ -1,5 +1,6 @@
-import { Book, User } from '../models/index.js';
-import { signToken, AuthenticationError } from '../services/auth.js';
+import { User } from '../models/index.js';
+import { signToken } from '../services/auth.js';
+import { GraphQLError } from 'graphql';
 
 // Define types for the arguments
 interface AddUserArgs {
@@ -36,14 +37,13 @@ const resolvers = {
         // The 'me' query relies on the context to check if the user is authenticated
         me: async (_parent: any, _args: any, context: any) => {
             // If the user is authenticated, find and return the user's information along with their thoughts
-            if (context.user) {
-                return User.findOne({ _id: context.user._id });
-            }
-            // If the user is not authenticated, throw an AuthenticationError
-            throw new AuthenticationError('Could not authenticate user.');
+            if (context.user) return User.findOne({ _id: context.user._id });
+
+            // If the user is not authenticated, throw an GraphQLError
+            throw new GraphQLError('Could not authenticate user.');
         },
     },
-// TODO verify all mutations are set up correctly, double check bookId reference is correct
+    
     Mutation: {
         addUser: async (_parent: any, { input }: AddUserArgs) => {
             // Create a new user with the provided username, email, and password
@@ -60,14 +60,14 @@ const resolvers = {
             // Find a user with the provided email
             const user = await User.findOne({ email });
 
-            // If no user is found, throw an AuthenticationError
-            if (!user) throw new AuthenticationError('Could not authenticate user.');
+            // If no user is found, throw an GraphQLError
+            if (!user) throw new GraphQLError('Could not authenticate user.');
 
             // Check if the provided password is correct
             const correctPw = await user.isCorrectPassword(password);
 
-            // If the password is incorrect, throw an AuthenticationError
-            if (!correctPw) throw new AuthenticationError('Could not authenticate user.');
+            // If the password is incorrect, throw an GraphQLError
+            if (!correctPw) throw new GraphQLError('Could not authenticate user.');
 
             // Sign a token with the user's information
             const token = signToken(user.username, user.email, user._id);
@@ -78,34 +78,28 @@ const resolvers = {
 
         saveBook: async (_parent: any, { input }: SaveBookArgs, context: any) => {
             if (context.user) {
-                const book = await Book.create({ ...input });
-
-                await User.findOneAndUpdate(
+                const userSaveBook = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: book._id } }
+                    { $addToSet: { savedBooks: input } },
+                    { new: true, runValidators: true } // run the validators on creation
                 );
 
-                return book;
+                return userSaveBook;
             }
-            throw new AuthenticationError('Could not authenticate user.');
+            throw new GraphQLError('Could not authenticate user.');
         },
 
         removeBook: async (_parent: any, { bookId }: RemoveBookArgs, context: any) => {
             if (context.user) {
-                const book = await Book.findOneAndDelete({
-                    bookId: bookId,
-                });
-
-                if (!book) throw new AuthenticationError('Could not authenticate user.');
-
-                await User.findOneAndUpdate(
+                const userRemoveBook = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { savedBooks: book.bookId } }
+                    { $pull: { savedBooks: bookId } },
+                    { new: true }
                 );
 
-                return book;
+                return userRemoveBook;
             }
-            throw new AuthenticationError('Could not authenticate user.');
+            throw new GraphQLError('Could not authenticate user.');
         },
     },
 };

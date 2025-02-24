@@ -84,7 +84,7 @@ In order for this application to use a GraphQL API, you’ll need to refactor th
 
 You’ll need to complete the following tasks in each of these back-end files:
 
-* X `auth.ts`: Update the auth middleware function to work with the GraphQL API.
+* X`auth.ts`: Update the auth middleware function to work with the GraphQL API.
 
 * X `server.ts`: Implement the Apollo Server and apply it to the Express server as middleware.
 
@@ -178,7 +178,7 @@ Additionally, you’ll need to complete the following tasks in each of these fro
 
   * Use the `useMutation()` hook to execute the `REMOVE_BOOK` mutation in the `handleDeleteBook()` function instead of the `deleteBook()` function that's imported from the `API` file. (Make sure you keep the `removeBookId()` function in place!)
 
-* `SignupForm.tsx`: Replace the `addUser()` functionality imported from the `API` file with the `ADD_USER` mutation functionality.
+* X `SignupForm.tsx`: Replace the `addUser()` functionality imported from the `API` file with the `ADD_USER` mutation functionality.
 
 * `LoginForm.tsx`: Replace the `loginUser()` functionality imported from the `API` file with the `LOGIN_USER` mutation functionality.
 

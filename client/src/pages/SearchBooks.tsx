@@ -69,7 +69,13 @@ const SearchBooks = () => {
     // create function to handle saving a book to our database
     const handleSaveBook = async (bookId: string) => {
         // search the state by the bookId, this is saved and fast to access so we dont need to make an extra API call
-        const bookToSave: Book = searchedBooks.find((book) => book.bookId === bookId)!;
+        // using .find() to find the book in the array of searchedBooks .find provided by prototype for arrays
+        const savingBook: Book = searchedBooks.find((searchedBook) => searchedBook.bookId === bookId)!;
+
+        if (!savingBook) {
+            console.error('Book not found in searchedBooks state');
+            return;
+        }
 
         // get token
         const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -80,11 +86,11 @@ const SearchBooks = () => {
             const newBook = await saveBook({
                 variables: {
                     bookData: {
-                        bookId: bookToSave.bookId,
-                        authors: bookToSave.authors,
-                        description: bookToSave.description,
-                        title: bookToSave.title,
-                        image: bookToSave.image,
+                        bookId: savingBook.bookId,
+                        authors: savingBook.authors,
+                        description: savingBook.description,
+                        title: savingBook.title,
+                        image: savingBook.image,
                     },
                 }
             });
@@ -92,7 +98,7 @@ const SearchBooks = () => {
             if (!newBook) throw new Error('Something went wrong saving the book!');
 
             // if book successfully saves to user's account, save book id to state
-            setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+            setSavedBookIds([...savedBookIds, savingBook.bookId]);
         } catch (error) {
             console.error("Error saving book to database: ", error);
         }
