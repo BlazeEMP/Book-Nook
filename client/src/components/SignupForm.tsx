@@ -40,9 +40,11 @@ const SignupForm = ({ }: { handleModalClose: () => void }) => {
                 variables: { ...userFormData }
             });
 
+            console.log(data);
             if (!data) throw new Error('No data returned when adding user, something went wrong!');
 
-            const { token } = data.addUser.token;
+            const token = data.addUser.token;
+            console.log(token);
             Auth.login(token);
         } catch (error) {
             console.error("Error while signing up user: ", error);

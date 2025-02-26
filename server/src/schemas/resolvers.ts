@@ -4,11 +4,9 @@ import { GraphQLError } from 'graphql';
 
 // Define types for the arguments
 interface AddUserArgs {
-    input: {
         username: string;
         email: string;
         password: string;
-    }
 }
 
 interface LoginUserArgs {
@@ -45,9 +43,10 @@ const resolvers = {
     },
     
     Mutation: {
-        addUser: async (_parent: any, { input }: AddUserArgs) => {
+        addUser: async (_parent: any, { username, email, password }: AddUserArgs) => {
             // Create a new user with the provided username, email, and password
-            const user = await User.create({ ...input });
+            const user = await User.create({ username, email, password });
+            
 
             // Sign a token with the user's information
             const token = signToken(user.username, user.email, user._id);
@@ -76,7 +75,7 @@ const resolvers = {
             return { token, user };
         },
 
-        saveBook: async (_parent: any, { input }: SaveBookArgs, context: any) => {
+        saveBook: async (_parent: any, input: SaveBookArgs, context: any) => {
             if (context.user) {
                 const userSaveBook = await User.findOneAndUpdate(
                     { _id: context.user._id },

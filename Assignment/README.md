@@ -180,7 +180,7 @@ Additionally, you’ll need to complete the following tasks in each of these fro
 
 * X `SignupForm.tsx`: Replace the `addUser()` functionality imported from the `API` file with the `ADD_USER` mutation functionality.
 
-* `LoginForm.tsx`: Replace the `loginUser()` functionality imported from the `API` file with the `LOGIN_USER` mutation functionality.
+* X `LoginForm.tsx`: Replace the `loginUser()` functionality imported from the `API` file with the `LOGIN_USER` mutation functionality.
 
 ## Grading Requirements
 
