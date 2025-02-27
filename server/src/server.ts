@@ -49,35 +49,4 @@ const startApolloServer = async () => {
     }
 };
 
-// const startApolloServer = async () => {
-//     try {
-//         await server.start();
-//         await db();
-
-//         app.use(express.urlencoded({ extended: true }));
-//         app.use(express.json());
-
-//         app.use('/graphql', expressMiddleware(server,
-//             {
-//                 context: authenticateToken as any
-//             }
-//         ));
-
-//         app.listen(PORT, () => {
-//             console.log(`API server running on port ${PORT}!`);
-//             console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
-//         });
-//     } catch (error) {
-//         console.error('Error starting server:', error);
-//     }
-
-//     if (process.env.NODE_ENV === 'production') {
-//         app.use(express.static(path.join(__dirname, '../client/dist')));
-
-//         app.get('*', (_req: Request, res: Response) => {
-//             res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-//         });
-//     }
-// };
-
 startApolloServer();
