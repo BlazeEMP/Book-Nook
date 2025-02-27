@@ -15,14 +15,12 @@ interface LoginUserArgs {
 }
 
 interface SaveBookArgs {
-    input: {
         bookId: string;
         authors: string[];
         description: string;
         title: string;
         image: string;
         link: string;
-    }
 }
 
 interface RemoveBookArgs {
@@ -46,7 +44,7 @@ const resolvers = {
         addUser: async (_parent: any, { username, email, password }: AddUserArgs) => {
             // Create a new user with the provided username, email, and password
             const user = await User.create({ username, email, password });
-            
+
 
             // Sign a token with the user's information
             const token = signToken(user.username, user.email, user._id);
@@ -74,12 +72,13 @@ const resolvers = {
             // Return the token and the user
             return { token, user };
         },
-
-        saveBook: async (_parent: any, input: SaveBookArgs, context: any) => {
+        // the use of {bookInput}:{bookInput: SaveBookArgs} is a destructuring of the input object, and type type assertion simultaneously.
+        saveBook: async (_parent: any, { bookInput }:{ bookInput: SaveBookArgs }, context: any) => {
+            console.log(context);
             if (context.user) {
                 const userSaveBook = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: input } },
+                    { $addToSet: { savedBooks: bookInput } },
                     { new: true, runValidators: true } // run the validators on creation
                 );
 
