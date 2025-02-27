@@ -18,12 +18,12 @@ export const authenticateToken = ({ req }: any) => {
 
     // Try to verify the token
     try {
-        const { data }: any = jwt.verify(token, process.env.JWT_SECRET_KEY || '', { maxAge: '2hr' });
+        const data: any = jwt.verify(token, process.env.JWT_SECRET_KEY || '', { maxAge: '2hr' });
         // If the token is valid, attach the user data to the request object
         req.user = data;
     } catch (error) {
         // If the token is invalid, log an error message
-        console.log('Invalid token: ', error);
+        console.error('Invalid token: ', error);
     }
 
     // Return the request object

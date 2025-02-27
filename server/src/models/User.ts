@@ -1,7 +1,8 @@
 import { Schema, model, Document } from 'mongoose';
+import Book from './Book.js';
 import bcrypt from 'bcrypt';
 
-interface IUser extends Document {
+export interface IUser extends Document {
     username: string;
     email: string;
     password: string;
@@ -29,11 +30,11 @@ const userSchema = new Schema<IUser>(
             required: true,
             minlength: 8,
         },
-        savedBooks: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Book',
-            },
+        savedBooks: [Book.schema!
+            // {
+            //     type: Schema.Types.ObjectId,
+            //     ref: 'Book',
+            // },
         ],
         bookCount: {
             type: Number,

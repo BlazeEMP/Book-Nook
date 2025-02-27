@@ -1,12 +1,13 @@
 import { User } from '../models/index.js';
+import type { IUser } from '../models/User.js';
 import { signToken } from '../services/auth.js';
 import { GraphQLError } from 'graphql';
 
 // Define types for the arguments
 interface AddUserArgs {
-        username: string;
-        email: string;
-        password: string;
+    username: string;
+    email: string;
+    password: string;
 }
 
 interface LoginUserArgs {
@@ -14,13 +15,13 @@ interface LoginUserArgs {
     password: string;
 }
 
-interface SaveBookArgs {
-        bookId: string;
-        authors: string[];
-        description: string;
-        title: string;
-        image: string;
-        link: string;
+interface SaveBookInput {
+    bookId: string;
+    authors: string[];
+    description: string;
+    title: string;
+    image?: string;
+    link?: string;
 }
 
 interface RemoveBookArgs {
@@ -39,7 +40,7 @@ const resolvers = {
             throw new GraphQLError('Could not authenticate user.');
         },
     },
-    
+
     Mutation: {
         addUser: async (_parent: any, { username, email, password }: AddUserArgs) => {
             // Create a new user with the provided username, email, and password
@@ -72,9 +73,8 @@ const resolvers = {
             // Return the token and the user
             return { token, user };
         },
-        // the use of {bookInput}:{bookInput: SaveBookArgs} is a destructuring of the input object, and type type assertion simultaneously.
-        saveBook: async (_parent: any, { bookInput }:{ bookInput: SaveBookArgs }, context: any) => {
-            console.log(context);
+        // the use of {bookInput}:{bookInput: SaveBookArgs} is a destructuring of the input object, and type assertion simultaneously.
+        saveBook: async (_parent: any, { bookInput }: { bookInput: SaveBookInput }, context: { user?: IUser }) => {
             if (context.user) {
                 const userSaveBook = await User.findOneAndUpdate(
                     { _id: context.user._id },
