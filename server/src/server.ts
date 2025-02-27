@@ -15,14 +15,13 @@ const server = new ApolloServer({
 });
 
 const startApolloServer = async () => {
+    const PORT = process.env.PORT || 3001;
+    const app = express();
 
     try {
         await server.start();
         await db();
         console.log('MongoDB connected successfully');
-
-        const PORT = process.env.PORT || 3001;
-        const app = express();
 
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json());
@@ -36,16 +35,16 @@ const startApolloServer = async () => {
             console.log(`Server running on port ${PORT}`);
             console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
         });
-
-        if (process.env.NODE_ENV === 'production') {
-            app.use(express.static(path.join(__dirname, '../client/dist')));
-    
-            app.get('*', (_req: Request, res: Response) => {
-                res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-            });
-        }
     } catch (error) {
         console.error('Error starting Apollo Server:', error);
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+        app.use(express.static(path.join(__dirname, '../client/dist')));
+
+        app.get('*', (_req: Request, res: Response) => {
+            res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+        });
     }
 };
 
