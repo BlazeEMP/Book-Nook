@@ -30,12 +30,7 @@ const userSchema = new Schema<IUser>(
             required: true,
             minlength: 8,
         },
-        savedBooks: [Book.schema!
-            // {
-            //     type: Schema.Types.ObjectId,
-            //     ref: 'Book',
-            // },
-        ],
+        savedBooks: [ Book.schema! ],
         bookCount: {
             type: Number,
             default: 0,
