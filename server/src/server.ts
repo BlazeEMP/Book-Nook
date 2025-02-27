@@ -7,39 +7,77 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 
+const __dirname = path.resolve();
+
 const server = new ApolloServer({
     typeDefs,
     resolvers
 });
 
 const startApolloServer = async () => {
-    await server.start();
-    await db();
 
-    const PORT = process.env.PORT || 3001;
-    const app = express();
+    try {
+        await server.start();
+        await db();
+        console.log('MongoDB connected successfully');
 
-    app.use(express.urlencoded({ extended: false }));
-    app.use(express.json());
+        const PORT = process.env.PORT || 3001;
+        const app = express();
 
-    app.use('/graphql', expressMiddleware(server as any,
-        {
-            context: authenticateToken as any
-        }
-    ));
+        app.use(express.urlencoded({ extended: true }));
+        app.use(express.json());
 
-    if (process.env.NODE_ENV === 'production') {
-        app.use(express.static(path.join(__dirname, '../client/dist')));
+        app.use(
+            '/graphql',
+            expressMiddleware(server, { context: authenticateToken as any })
+        );
 
-        app.get('*', (_req: Request, res: Response) => {
-            res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+            console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
         });
-    }
 
-    app.listen(PORT, () => {
-        console.log(`API server running on port ${PORT}!`);
-        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
-    });
+        if (process.env.NODE_ENV === 'production') {
+            app.use(express.static(path.join(__dirname, '../client/dist')));
+    
+            app.get('*', (_req: Request, res: Response) => {
+                res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+            });
+        }
+    } catch (error) {
+        console.error('Error starting Apollo Server:', error);
+    }
 };
+
+// const startApolloServer = async () => {
+//     try {
+//         await server.start();
+//         await db();
+
+//         app.use(express.urlencoded({ extended: true }));
+//         app.use(express.json());
+
+//         app.use('/graphql', expressMiddleware(server,
+//             {
+//                 context: authenticateToken as any
+//             }
+//         ));
+
+//         app.listen(PORT, () => {
+//             console.log(`API server running on port ${PORT}!`);
+//             console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+//         });
+//     } catch (error) {
+//         console.error('Error starting server:', error);
+//     }
+
+//     if (process.env.NODE_ENV === 'production') {
+//         app.use(express.static(path.join(__dirname, '../client/dist')));
+
+//         app.get('*', (_req: Request, res: Response) => {
+//             res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+//         });
+//     }
+// };
 
 startApolloServer();

@@ -2,12 +2,17 @@ import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
+// for graphQL + apollo implementation
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations';
+
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const SignupForm = ({ }: { handleModalClose: () => void }) => {
+    // for graphQL + apollo implementation with react hooks provided by apollo server
+    const [addUser] = useMutation(ADD_USER);
     // set initial form state
     const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
     // set state for form validation
@@ -31,19 +36,22 @@ const SignupForm = ({ }: { handleModalClose: () => void }) => {
         }
 
         try {
-            const response = await createUser(userFormData);
+            const { data } = await addUser({
+                variables: { ...userFormData }
+            });
 
-            if (!response.ok) {
-                throw new Error('something went wrong!');
-            }
+            console.log(data);
+            if (!data) throw new Error('No data returned when adding user, something went wrong!');
 
-            const { token } = await response.json();
+            const token = data.addUser.token;
+            console.log(token);
             Auth.login(token);
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error("Error while signing up user: ", error);
             setShowAlert(true);
         }
 
+        // clear form values after submission
         setUserFormData({
             username: '',
             email: '',
