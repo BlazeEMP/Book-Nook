@@ -87,7 +87,7 @@ const resolvers = {
             throw new GraphQLError('Could not authenticate user.');
         },
 
-        removeBook: async (_parent: any, { bookId }: RemoveBookArgs, context: any) => {
+        removeBook: async (_parent: any, { bookId }: RemoveBookArgs, context: { user?: IUser }) => {
             if (context.user) {
                 const userRemoveBook = await User.findOneAndUpdate(
                     { _id: context.user._id },
