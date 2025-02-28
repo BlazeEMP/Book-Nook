@@ -16,11 +16,19 @@
 
   ## Installation
 
-  No installation required, visit the deployed webpage.
+  No installation required, visit the deployed webpage. [Go here!](https://book-nook-8i2u.onrender.com)
 
   ## Usage
 
-  -Go to the link, -Create a user -Search for books -Hit save!
+  -Go to the link [Visit the site!](https://book-nook-8i2u.onrender.com)  
+  -Create a user  
+  -Search for books  
+  -Hit save  
+  -View your saved books later, even if you clear your browser!  
+
+  ![Image of the sign up screen on the site](./assets/SignUp.PNG)  
+  ![Image of the book search screen on the site](./assets/SearchBook.PNG)
+
 
   ## License
 
@@ -32,7 +40,12 @@
 
   ## Tests
 
-  You should be able to perform all actions as a user... 1.) Sign up 2.) Login 3.) Search for books 4.) Save and delete books while logged in
+  You should be able to perform all the following actions as a user...  
+
+  1.) Sign up  
+  2.) Login  
+  3.) Search for books  
+  4.) Save and delete books while logged in
 
   ## Questions
 
