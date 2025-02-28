@@ -68,13 +68,13 @@ const SearchBooks = () => {
 
     // create function to handle saving a book to our database
     const handleSaveBook = async (bookId: string) => {
-        // search the state by the bookId, this is saved and fast to access so we dont need to make an extra API call
-        // using .find() to find the book in the array of searchedBooks .find provided by prototype for arrays
+        // search the state by the bookId, this is saved for use on the page and fast to access so we dont need to make an extra API call to get a specific books data
+        // using .find() to find the book in the array of searchedBooks state from React (.find provided by prototype for arrays)
         const savingBook: Book = searchedBooks.find((searchedBook) => searchedBook.bookId === bookId)!;
 
         if (!savingBook) {
-            console.error('Book not found in searchedBooks state');
-            return;
+            console.error('Book not found in state of searchedBooks');
+            return false;
         }
 
         // get token
