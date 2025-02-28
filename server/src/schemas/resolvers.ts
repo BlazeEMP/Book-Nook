@@ -24,10 +24,6 @@ interface SaveBookInput {
     link?: string;
 }
 
-interface RemoveBookArgs {
-    bookId: string;
-}
-
 const resolvers = {
     Query: {
         // Query to get the authenticated user's information
