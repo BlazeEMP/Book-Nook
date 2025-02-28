@@ -68,6 +68,7 @@ const SearchBooks = () => {
 
     // create function to handle saving a book to our database
     const handleSaveBook = async (bookId: string) => {
+        // function found on github for react book search engine https://github.com/renkayla/book-search-engine/blob/82a4af29fa93e6cfba55d83731963afb604bf92d/client/src/pages/SearchBooks.js#L63
         // search the state by the bookId, this is saved for use on the page and fast to access so we dont need to make an extra API call to get a specific books data
         // using .find() to find the book in the array of searchedBooks state from React (.find provided by prototype for arrays)
         const savingBook: Book = searchedBooks.find((searchedBook) => searchedBook.bookId === bookId)!;
