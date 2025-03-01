@@ -1,4 +1,3 @@
-// TODO COMPLETE double check file
 const typeDefs = `
     type User {
         _id: ID
