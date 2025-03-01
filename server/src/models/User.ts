@@ -36,13 +36,6 @@ const userSchema = new Schema<IUser>(
             default: 0,
         },
     }
-    // TODO: uncomment for settings for schema if needed
-    // ,
-    // {
-    //     timestamps: true,
-    //     toJSON: { getters: true },
-    //     toObject: { getters: true },
-    // }
 );
 
 // pre hook to hash the password before saving a new user or updating password field on a user

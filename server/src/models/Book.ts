@@ -35,13 +35,6 @@ const bookSchema = new Schema<IBook>(
             type: String,
         },
     }
-    // TODO: uncomment for settings for schema if needed
-    // ,
-    // {
-    //     timestamps: true,
-    //     toJSON: { getters: true },
-    //     toObject: { getters: true },
-    // }
 );
 
 const Book = model<IBook>('Book', bookSchema);
